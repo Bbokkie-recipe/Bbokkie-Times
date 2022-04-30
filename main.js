@@ -2,13 +2,13 @@ let news = [];
 let menus = document.querySelectorAll(".menus button");
 let searchBtn = document.getElementById("search-btn");
 //console.log("서치버튼클릭", searchBtn);
+let url;
+
 menus.forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByTopic(event))
 );
-const getLatestNews = async () => {
-  let url = new URL(
-    `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=sport&page_size=5`
-  );
+
+const getNews = async () => {
   let header = new Headers({
     "x-api-key": "mq7AfahUuQLPwY4_WhXjc9YCjgQKkKz6KhZvMbEDthE",
   });
@@ -19,21 +19,21 @@ const getLatestNews = async () => {
   render();
 };
 
+const getLatestNews = async () => {
+  url = new URL(
+    `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=sport&page_size=5`
+  );
+  getNews();
+};
+
 const getNewsByTopic = async (event) => {
   //console.log("클림됨", event.target.textContent);
   let topic = event.target.textContent.toLowerCase();
-  let url = new URL(
+  url = new URL(
     `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=${topic}&page_size=5`
   );
   //console.log("uuu", url);
-  let header = new Headers({
-    "x-api-key": "mq7AfahUuQLPwY4_WhXjc9YCjgQKkKz6KhZvMbEDthE",
-  });
-  let response = await fetch(url, { headers: header });
-  let data = await response.json();
-  news = data.articles;
-  render();
-  //console.log("토픽뉴스 데이터", data);
+  getNews();
 };
 
 //1. 검색 키워드 읽어보기 2. url에 검색 키워드 붙이기 3.헤더준비 4. url 부르기 5. 데이터 가져오기 6. 데이터보여주기
@@ -43,17 +43,10 @@ const getNewsByKeyword = async () => {
   let keyword = document.getElementById("search-input").value;
   //console.log("입력데이터", keyword);
 
-  let url = new URL(
+  url = new URL(
     `https://api.newscatcherapi.com/v2/search?q=${keyword}&countries=KR&page_size=5`
   );
-  let header = new Headers({
-    "x-api-key": "mq7AfahUuQLPwY4_WhXjc9YCjgQKkKz6KhZvMbEDthE",
-  });
-  let response = await fetch(url, { headers: header });
-  let data = await response.json();
-  news = data.articles;
-  render();
-  // console.log("토픽뉴스 데이터", data);
+  getNews();
 };
 
 const render = () => {

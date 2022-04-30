@@ -1,5 +1,7 @@
 let news = [];
 let menus = document.querySelectorAll(".menus button");
+let searchBtn = document.getElementById("search-btn");
+//console.log("서치버튼클릭", searchBtn);
 menus.forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByTopic(event))
 );
@@ -34,6 +36,26 @@ const getNewsByTopic = async (event) => {
   //console.log("토픽뉴스 데이터", data);
 };
 
+//1. 검색 키워드 읽어보기 2. url에 검색 키워드 붙이기 3.헤더준비 4. url 부르기 5. 데이터 가져오기 6. 데이터보여주기
+const getNewsByKeyword = async () => {
+  console.log("getNewsByKeyword()");
+  //1. 검색 키워드 읽기
+  let keyword = document.getElementById("search-input").value;
+  //console.log("입력데이터", keyword);
+
+  let url = new URL(
+    `https://api.newscatcherapi.com/v2/search?q=${keyword}&countries=KR&page_size=5`
+  );
+  let header = new Headers({
+    "x-api-key": "mq7AfahUuQLPwY4_WhXjc9YCjgQKkKz6KhZvMbEDthE",
+  });
+  let response = await fetch(url, { headers: header });
+  let data = await response.json();
+  news = data.articles;
+  render();
+  // console.log("토픽뉴스 데이터", data);
+};
+
 const render = () => {
   let newsHTML = "";
   newsHTML = news
@@ -47,7 +69,8 @@ const render = () => {
     </div>
     <div class="col-lg-8">
       <h4>${newsitem.title}</h4>
-      <p>${newsitem.summary}</p>
+      <div><br></div>
+      <p>${newsitem.summary.substring(0, 300) + "..."}</p>
       <div>${newsitem.rights}*${newsitem.published_date}</div>
     </div>
   </div>`;
@@ -56,4 +79,6 @@ const render = () => {
 
   document.getElementById("news-board").innerHTML = newsHTML;
 };
+
+searchBtn.addEventListener("click", getNewsByKeyword);
 getLatestNews();

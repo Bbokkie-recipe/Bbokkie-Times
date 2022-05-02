@@ -1,5 +1,9 @@
 # Bbokkie-Times
 news Paper clone coding   
+2022.05.02   
+에러 핸들링
+![캡처](https://user-images.githubusercontent.com/93479286/166240184-519b2536-f345-4143-8cef-21ea6bf537fc.PNG)   
+
 2022.04.30   
 서치별 뉴스 렌더링   
 장원영 검색시,   

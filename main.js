@@ -15,6 +15,8 @@ const getNews = async () => {
     let header = new Headers({
       "x-api-key": "mq7AfahUuQLPwY4_WhXjc9YCjgQKkKz6KhZvMbEDthE",
     });
+    url.searchParams.set("page", page); //&page=1
+    console.log("url 정보 : ", url);
     let response = await fetch(url, { headers: header });
     let data = await response.json();
     if (response.status == 200) {
@@ -108,12 +110,45 @@ const pagenation = () => {
   let last = pageGroup * 5;
   //fiest
   let first = last - 4;
+  pagenationHTML = `<li class="page-item">
+  <a class="page-link" href="#" aria-label="Previous" onclick="moveToPage(${page})">
+    <span aria-hidden="true">&laquo;</span>
+  </a>
+</li>`;
+  pagenationHTML += `<li class="page-item">
+  <a class="page-link" href="#" aria-label="Previous" onclick="moveToPage(${
+    page - 1
+  })">
+    <span aria-hidden="true">&lt;</span>
+  </a>
+</li>`;
   //first~lst page print
   for (let i = first; i <= last; i++) {
-    pagenationHTML += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`;
+    pagenationHTML += `<li class="page-item ${
+      page == i ? "active" : ""
+    }"><a class="page-link" href="#" onclick="moveToPage(${i})">${i}</a></li>`;
   }
+  pagenationHTML += `<li class="page-item">
+  <a class="page-link" href="#" onclick="moveToPage(${
+    page + 1
+  })" aria-label="Next">
+    <span aria-hidden="true">&gt;</span>
+  </a>
+</li>`;
+  pagenationHTML += `<li class="page-item">
+<a class="page-link" href="#"onclick="moveToPage(${last})" aria-label="Next">
+  <span aria-hidden="true">&raquo;</span>
+</a>
+</li>`;
   document.querySelector(".pagination").innerHTML = pagenationHTML;
 };
 
+const moveToPage = (pageNum) => {
+  //1. 이동하고 싶은 페이지 확인
+  page = pageNum;
+  console.log(page);
+  //2. 이동하고 싶은 페이지 api 다시 호출
+  getNews();
+};
 searchBtn.addEventListener("click", getNewsByKeyword);
 getLatestNews();

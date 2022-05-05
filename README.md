@@ -1,6 +1,9 @@
-# Bbokkie-Times
+# Bbokkie-Times   
+완성된 홈페이지 놀러가기 : https://bbokkie-times.netlify.app/   
 
 news Paper clone coding  
+2022.05.06   
+완성   
 2022.05.06  
 페이지네이션 처리를 위한 콘솔로그 확인  
 ![캡처](https://user-images.githubusercontent.com/93479286/166956512-8493a366-1389-4b9a-ac8c-134492abb1c3.PNG)  

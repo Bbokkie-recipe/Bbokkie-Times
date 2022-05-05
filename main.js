@@ -1,4 +1,6 @@
 let news = [];
+let page = 1;
+let total_pages = 0;
 let menus = document.querySelectorAll(".menus button");
 let searchBtn = document.getElementById("search-btn");
 //console.log("서치버튼클릭", searchBtn);
@@ -11,14 +13,21 @@ menus.forEach((menu) =>
 const getNews = async () => {
   try {
     let header = new Headers({
-      "x-api-key": "1mq7AfahUuQLPwY4_WhXjc9YCjgQKkKz6KhZvMbEDthE",
+      "x-api-key": "mq7AfahUuQLPwY4_WhXjc9YCjgQKkKz6KhZvMbEDthE",
     });
     let response = await fetch(url, { headers: header });
     let data = await response.json();
     if (response.status == 200) {
+      if (data.total_hits == 0) {
+        throw new Error("검색된 결괏값이 없습니다!!!");
+      }
+      console.log("receive data는", data);
       news = data.articles;
+      total_pages = data.total_pages;
+      page = data.page;
       console.log(news);
       render();
+      pagenation();
     } else {
       throw new Error(data.message);
     }
@@ -87,6 +96,23 @@ const errorRender = (message) => {
 ${message}
 </div>`;
   document.getElementById("news-board").innerHTML = errorHTML;
+};
+
+const pagenation = () => {
+  let pagenationHTML = ``;
+  //total_page
+  //page
+  //pageGroup
+  let pageGroup = Math.ceil(page / 5);
+  //last
+  let last = pageGroup * 5;
+  //fiest
+  let first = last - 4;
+  //first~lst page print
+  for (let i = first; i <= last; i++) {
+    pagenationHTML += `<li class="page-item"><a class="page-link" href="#">${i}</a></li>`;
+  }
+  document.querySelector(".pagination").innerHTML = pagenationHTML;
 };
 
 searchBtn.addEventListener("click", getNewsByKeyword);

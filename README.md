@@ -3,6 +3,8 @@ news Paper clone coding
 2022.05.06   
 페이지네이션 처리를 위한 콘솔로그 확인   
 ![캡처](https://user-images.githubusercontent.com/93479286/166956512-8493a366-1389-4b9a-ac8c-134492abb1c3.PNG)   
+페이지네이션 스타일은 [부트스트랩](https://getbootstrap.kr/docs/5.1/components/pagination/) 활용    
+
 2022.05.02   
 에러 핸들링
 ![캡처](https://user-images.githubusercontent.com/93479286/166240184-519b2536-f345-4143-8cef-21ea6bf537fc.PNG)   
